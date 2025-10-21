@@ -46,7 +46,6 @@ Create Date: ${created_at}
 
 from qdrant_client import QdrantClient, models
 
-
 # revision identifiers, used by the migration tool
 revision = "${revision}"
 down_revision = "${revises or None}"

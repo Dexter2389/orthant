@@ -49,9 +49,11 @@ def run_migration_task(
         console.print("[bold green]Database is already up-to-date.[/bold green]")
         return
 
-    table = Table(
-        title=f"Migrating from '{current_revision or 'base'}' to '{target_revision}'"
+    console.print(
+        f"Migrating from '{current_revision if current_revision is not None else 'base'}' to '{target_revision}'"
     )
+
+    table = Table()
     table.add_column("Action", style="cyan", no_wrap=True)
     table.add_column("Revision ID", style="magenta")
     for migration, action in migration_run_plan:
@@ -59,7 +61,7 @@ def run_migration_task(
             case ActionEnum.UPGRADE:
                 action_style = "bold green"
             case ActionEnum.DOWNGRADE:
-                action_style = "bold yellow"
+                action_style = "bold red"
 
         table.add_row(
             f"[{action_style}]{action.upper()}[/{action_style}]", migration.revision_id
@@ -129,7 +131,7 @@ def create_new_migration(
             current_revision=None,
             verbose=verbose,
         )
-        current_head = path[-1][0].revision_id if path is not None else None
+        current_head = path[-1][0].revision_id if path else None
 
     revises_id = current_head or ""
 
@@ -155,7 +157,7 @@ def create_new_migration(
             revises=revises_id,
             created_at=datetime.now(UTC).isoformat(),
             description=short_description
-            + ("\n\n" + long_description if long_description is not None else ""),
+            + ("\n\n" + long_description if long_description else ""),
         )
         with open(migration_file_path, "w") as file:
             file.write(rendered_migration_script)

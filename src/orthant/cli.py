@@ -77,6 +77,8 @@ def current() -> None:
 def upgrade(revision: str, dry_run: bool, verbose: bool) -> None:
     console = Console()
 
+    ensure_env_file_exists(console=console)
+
     task = partial(
         run_migration_task,
         console=console,
@@ -93,6 +95,8 @@ def upgrade(revision: str, dry_run: bool, verbose: bool) -> None:
 @click.option("--verbose", is_flag=True, help="Enable verbose mode to echo steps.")
 def downgrade(revision: str, dry_run: bool, verbose: bool) -> None:
     console = Console()
+
+    ensure_env_file_exists(console=console)
 
     task = partial(
         run_migration_task,

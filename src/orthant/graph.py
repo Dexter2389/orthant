@@ -30,7 +30,9 @@ def _parse_migration_script_headers(script_path: Path) -> MigrationScriptMetadat
     return MigrationScriptMetadata(
         path=script_path,
         revision_id=revision_id_match.group(1) if revision_id_match else None,
-        revises_id=revises_id_match.group(1) if revises_id_match else None,
+        revises_id=revises_id_match.group(1)
+        if revises_id_match and revises_id_match.group(1)
+        else None,
     )
 
 
