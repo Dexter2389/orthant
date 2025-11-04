@@ -1,6 +1,6 @@
 [project]
 name = "orthant"
-version = "0.1.1"
+version = "0.1.2"
 description = "A database migration tool for Qdrant Vector DB."
 authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"

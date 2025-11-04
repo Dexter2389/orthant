@@ -13,11 +13,18 @@ class Config(BaseModel):
 
 
 def load_configs() -> Config:
+    orthant_config_file = Path("orthant.toml")
     pyproject_file = Path("pyproject.toml")
-    if not pyproject_file.exists():
-        raise FileNotFoundError("Unable to locate configuration file.")
 
-    with open(pyproject_file, "rb") as file:
+    if not orthant_config_file.exists():
+        if not pyproject_file.exists():
+            raise FileNotFoundError("Unable to locate configuration file.")
+        else:
+            config_file = pyproject_file
+    else:
+        config_file = orthant_config_file
+
+    with open(config_file, "rb") as file:
         raw_orthant_config: dict = tomllib.load(file).get("tool", {}).get("orthant", {})
 
         raw_orthant_base_dir: str = raw_orthant_config.get("base_dir", "orthant")
